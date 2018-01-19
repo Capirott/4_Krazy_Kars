@@ -41,6 +41,9 @@ private:
 	UPROPERTY(EditAnywhere)
 	float DragCoefficient = 16;
 
+	UPROPERTY(EditAnywhere)
+	float RollingResistanceCoefficient = 0.015;
+
 	FVector Velocity;
 	void MoveForward(float value);
 
@@ -48,6 +51,7 @@ private:
 	void UpdateLocationFromVelocity(float DeltaTime);
 	void ApplyRotation(float DeltaTime);
 	FVector GetAirResistance();
+	FVector GetRollingResistance();
 	
 	float Throttle;
 	float SteeringThrow;
