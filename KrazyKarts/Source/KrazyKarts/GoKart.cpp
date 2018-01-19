@@ -26,10 +26,16 @@ void AGoKart::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	FVector Force = GetActorForwardVector() * MaxDrivingForce * Throttle;
+	Force += GetAirResistance();
 	FVector Acceletation = Force / Mass;
 	Velocity += Acceletation * DeltaTime;
 	ApplyRotation(DeltaTime);
 	UpdateLocationFromVelocity(DeltaTime);
+}
+
+FVector AGoKart::GetAirResistance()
+{
+	return -Velocity.GetSafeNormal() * Velocity.SizeSquared() * DragCoefficient;
 }
 
 void AGoKart::ApplyRotation(float DeltaTime)
