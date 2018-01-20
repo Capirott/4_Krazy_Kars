@@ -33,7 +33,7 @@ private:
 	float Mass = 1000.0f;
 
 	UPROPERTY(EditAnywhere)
-	float MaxDegreesPerSecond = 90.0f;
+	float MinimumTurningRadius = 10.0f;
 
 	UPROPERTY(EditAnywhere)
 	float MaxDrivingForce = 10000;
