@@ -63,6 +63,8 @@ public:
 private:
 
 	void SimulateMove(FGoKartMove Move);
+	FGoKartMove CreateMove(float DeltaTime);
+	void ClearAcknowledgeMoves(FGoKartMove LastMove);
 
 	UPROPERTY(EditAnywhere)
 	float Mass = 1000.0f;
@@ -100,4 +102,6 @@ private:
 	
 	float Throttle;
 	float SteeringThrow;	
+
+	TArray<FGoKartMove> UnacknowledgeMoves;
 };
