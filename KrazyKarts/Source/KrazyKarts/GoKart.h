@@ -61,6 +61,9 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 private:
+
+	void SimulateMove(FGoKartMove Move);
+
 	UPROPERTY(EditAnywhere)
 	float Mass = 1000.0f;
 
@@ -88,16 +91,13 @@ private:
 	void MoveForward(float value);
 
 	void UpdateLocationFromVelocity(float DeltaTime);
-	void ApplyRotation(float DeltaTime);
+	void ApplyRotation(float DeltaTime, float SteeringThrow);
 	FVector GetAirResistance();
 	FVector GetRollingResistance();
 
 	UFUNCTION()
 	void OnRep_ServerState();
 	
-	UPROPERTY(Replicated)
 	float Throttle;
-	UPROPERTY(Replicated)
-	float SteeringThrow;
-	
+	float SteeringThrow;	
 };
