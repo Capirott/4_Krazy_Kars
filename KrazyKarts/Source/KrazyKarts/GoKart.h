@@ -77,10 +77,12 @@ private:
 	float RollingResistanceCoefficient = 0.015;
 
 	UFUNCTION(Server, Reliable, WithValidation)
-	void Server_MoveForward(float value);
+	void Server_SendMove(FGoKartMove Move);	
 	
-	UFUNCTION(Server, Reliable, WithValidation)
-	void Server_MoveRight(float value);
+	UPROPERTY(ReplicatedUsing = OnRep_ServerState)
+	FGoKartState ServerState;
+	
+	FVector Velocity;
 
 	void MoveRight(float value);
 	void MoveForward(float value);
@@ -89,15 +91,9 @@ private:
 	void ApplyRotation(float DeltaTime);
 	FVector GetAirResistance();
 	FVector GetRollingResistance();
-	
-	UPROPERTY(Replicated)
-	FVector Velocity;
-	
-	UPROPERTY(ReplicatedUsing=OnRep_ReplicatedTransform)
-	FTransform ReplicatedTransform;
 
 	UFUNCTION()
-	void OnRep_ReplicatedTransform();
+	void OnRep_ServerState();
 	
 	UPROPERTY(Replicated)
 	float Throttle;
