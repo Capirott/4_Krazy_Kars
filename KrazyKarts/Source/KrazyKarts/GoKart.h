@@ -52,6 +52,8 @@ private:
 	UFUNCTION(Server, Reliable, WithValidation)
 	void Server_MoveRight(float value);
 
+	void MoveRight(float value);
+	void MoveForward(float value);
 
 	void UpdateLocationFromVelocity(float DeltaTime);
 	void ApplyRotation(float DeltaTime);
