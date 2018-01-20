@@ -44,7 +44,6 @@ private:
 	UPROPERTY(EditAnywhere)
 	float RollingResistanceCoefficient = 0.015;
 
-	FVector Velocity;
 
 	UFUNCTION(Server, Reliable, WithValidation)
 	void Server_MoveForward(float value);
@@ -59,7 +58,14 @@ private:
 	void ApplyRotation(float DeltaTime);
 	FVector GetAirResistance();
 	FVector GetRollingResistance();
-	
+		
+	FVector Velocity;
+
+	UPROPERTY(Replicated)
+	FVector ReplicatedLocation;
+	UPROPERTY(Replicated)
+	FRotator ReplicatedRotation;
+
 	float Throttle;
 	float SteeringThrow;
 	
