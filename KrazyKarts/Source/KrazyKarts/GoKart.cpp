@@ -25,6 +25,15 @@ void AGoKart::BeginPlay()
 	}	
 }
 
+void AGoKart::GetLifetimeReplicatedProps(TArray<FLifetimeProperty> & OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(AGoKart, ReplicatedTransform);
+	DOREPLIFETIME(AGoKart, Velocity);
+	DOREPLIFETIME(AGoKart, Throttle);
+	DOREPLIFETIME(AGoKart, SteeringThrow);
+}
+
 FString GetEnumText(ENetRole Role)
 {
 	switch (Role)
@@ -138,10 +147,4 @@ void AGoKart::Server_MoveRight_Implementation(float Value)
 bool AGoKart::Server_MoveRight_Validate(float Value)
 {
 	return FMath::Abs(Value) <= 1.0f;
-}
-
-void AGoKart::GetLifetimeReplicatedProps(TArray<FLifetimeProperty> & OutLifetimeProps) const
-{
-	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME(AGoKart, ReplicatedTransform);
 }
