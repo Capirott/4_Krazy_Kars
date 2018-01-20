@@ -45,9 +45,14 @@ private:
 	float RollingResistanceCoefficient = 0.015;
 
 	FVector Velocity;
-	void MoveForward(float value);
 
-	void MoveRight(float value);
+	UFUNCTION(Server, Reliable, WithValidation)
+	void Server_MoveForward(float value);
+	
+	UFUNCTION(Server, Reliable, WithValidation)
+	void Server_MoveRight(float value);
+
+
 	void UpdateLocationFromVelocity(float DeltaTime);
 	void ApplyRotation(float DeltaTime);
 	FVector GetAirResistance();
