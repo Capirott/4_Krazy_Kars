@@ -95,6 +95,10 @@ void AGoKart::OnRep_ServerState()
 	SetActorTransform(ServerState.Transform);
 	Velocity = ServerState.Velocity;
 	ClearAcknowledgeMoves(ServerState.LastMove);
+	for (const FGoKartMove& Move : UnacknowledgeMoves)
+	{
+		SimulateMove(Move);
+	}
 }
 
 FVector AGoKart::GetAirResistance()
@@ -148,7 +152,7 @@ void AGoKart::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAxis("MoveRight", this, &AGoKart::MoveRight);
 }
 
-void AGoKart::SimulateMove(FGoKartMove Move)
+void AGoKart::SimulateMove(const FGoKartMove& Move)
 {
 	FVector Force = GetActorForwardVector() * MaxDrivingForce * Move.Throttle;
 	Force += GetAirResistance();
