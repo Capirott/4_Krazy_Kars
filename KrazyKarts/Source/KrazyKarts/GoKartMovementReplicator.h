@@ -44,6 +44,8 @@ public:
 
 private:
 
+	void UpdateServerState(const FGoKartMove& LastMove);
+
 	void ClearAcknowledgeMoves(FGoKartMove LastMove);
 
 	UFUNCTION(Server, Reliable, WithValidation)
