@@ -52,18 +52,23 @@ FString GetEnumText(ENetRole Role)
 void AGoKart::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	
-	if (IsLocallyControlled())
+
+	if (Role == ROLE_AutonomousProxy)
 	{
 		FGoKartMove Move = CreateMove(DeltaTime);
-		
-		if (!HasAuthority())
-		{
-			UnacknowledgeMoves.Add(Move);
-		}
-		Server_SendMove(Move);
 		SimulateMove(Move);
-	}	
+		UnacknowledgeMoves.Add(Move);
+		Server_SendMove(Move);
+	}
+	if (Role == ROLE_Authority && GetRemoteRole() == ROLE_SimulatedProxy)
+	{
+		FGoKartMove Move = CreateMove(DeltaTime);
+		Server_SendMove(Move);
+	}
+	if (Role == ROLE_SimulatedProxy)
+	{
+		SimulateMove(ServerState.LastMove);
+	}
 	DrawDebugString(GetWorld(), FVector(0, 0, 100), GetEnumText(Role), this, FColor::White, DeltaTime);
 }
 
