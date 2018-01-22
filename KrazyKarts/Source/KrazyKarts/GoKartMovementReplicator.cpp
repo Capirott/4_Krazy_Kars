@@ -171,13 +171,16 @@ void UGoKartMovementReplicator::SimulatedProxy_OnRep_ServerState()
 void UGoKartMovementReplicator::Server_SendMove_Implementation(FGoKartMove LastMove)
 {
 	if (MovementComponent == nullptr) return;
+	ClientSimulatedTime += LastMove.DeltaTime;
 	MovementComponent->SimulateMove(LastMove);
 	UpdateServerState(LastMove);
 }
 
 bool UGoKartMovementReplicator::Server_SendMove_Validate(FGoKartMove Move)
 {
-	return true;
+	float ProposedTime = ClientSimulatedTime + Move.DeltaTime;
+	bool ClientNotRunningAhead = ProposedTime < GetWorld()->TimeSeconds;
+	return Move.IsValid() && ClientNotRunningAhead;
 }
 
 FVector FHermiteCubicSpline::InterpolateLocation(float LerpRatio) const
